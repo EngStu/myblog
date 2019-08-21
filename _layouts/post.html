@@ -1,0 +1,52 @@
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {{ page.date | date: date_format }}
+      </time>
+
+        <!-- include tag -->
+    <small style="color: green">Tags _
+      {% for tag in page.tags %}
+      <a style="color: red" href="/tags/{{ tag }}">{{ tag }}</a>
+      {% endfor %}
+    </small>
+
+      {%- if page.author -%}
+        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+      {%- endif -%}</p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  {%- if site.disqus.shortname -%}
+    {%- include disqus_comments.html -%}
+  {%- endif -%}
+
+
+
+  <hr>
+  <!-- include tags cloud -->
+  <p style="color: green">All Tags _ 
+      <!-- <h4 style="color: blue">Tags</h4> -->
+      {% for tag in site.tags %}
+      <!-- Here's a hack to generate a "tag cloud" where the size of
+      the word is directly proportional to the number of posts with
+      that tag. -->
+      <a href="/tags/{{ tag[0] }}/"
+      style="color: red; font-size: {{ tag[1] | size | times: 2 | plus: 10 }}px">
+          {{ tag[0] }} |
+      </a>
+      {% endfor %}
+  </p>
+
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>
